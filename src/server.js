@@ -64,4 +64,4 @@ app.post("/api/articles/:name/add-comments", (req, res) => {
   }, res);
 });
 
-app.listen(8000, () => console.log("Listening on port 8000"));
+app.listen(3001, () => console.log("Listening on port 8000"));
