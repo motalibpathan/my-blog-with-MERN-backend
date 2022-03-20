@@ -3,11 +3,17 @@ const bodyParser = require("body-parser");
 const app = express();
 const { MongoClient } = require("mongodb");
 
+console.log(process.env);
+const DB = process.env.MONGODB_SERVER.replace(
+  "<PASSWORD>",
+  process.env.DB_PASSWORD
+);
+
 app.use(bodyParser.json());
 
 const withDB = async (operations, res) => {
   try {
-    const client = await MongoClient.connect("mongodb://localhost:27017", {
+    const client = await MongoClient.connect(DB, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
