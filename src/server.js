@@ -1,14 +1,16 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const compression = require("compression");
 const app = express();
 const { MongoClient } = require("mongodb");
+require("dotenv").config();
 
-console.log(process.env);
 const DB = process.env.MONGODB_SERVER.replace(
   "<PASSWORD>",
   process.env.DB_PASSWORD
 );
 
+app.use(compression());
 app.use(bodyParser.json());
 
 const withDB = async (operations, res) => {
@@ -17,6 +19,7 @@ const withDB = async (operations, res) => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
+    console.log("Connection successful");
     const db = client.db("myblog");
     await operations(db);
     client.close();
@@ -32,6 +35,7 @@ app.get("/api/articles/:name", async (req, res) => {
     const articleInfo = await db
       .collection("articles")
       .findOne({ name: articleName });
+
     return res.status(200).json(articleInfo);
     // client.close();
   }, res);
