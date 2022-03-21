@@ -1,9 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const compression = require("compression");
+const cors = require("cors");
 const app = express();
 const { MongoClient } = require("mongodb");
 require("dotenv").config();
+
+app.use(cors());
 
 const DB = process.env.MONGODB_SERVER.replace(
   "<PASSWORD>",
